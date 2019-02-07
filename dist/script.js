@@ -1,5 +1,5 @@
 const CONFIG = {
-  scatterRadius: 10,
+  scatterRadius: 15,
   margin: {
     top: 50,
     right: 50,
@@ -15,7 +15,7 @@ let width = CONFIG.width - CONFIG.margin.left - CONFIG.margin.right;
 let main, data, mainSVG = null;
 
 
-let xScale, yScale, radiusScale, colorScale, xScalePosition = null;
+let xScale, yScale, radiusScale, colorScale, xScalePosition, yScalePosition = null;
 let selectedMetric = "Qualification Results";
 
 window.onload = () => {
@@ -48,6 +48,11 @@ function configureScales() {
   xScalePosition = d3.scaleLinear()
     .domain([d3.min(getProperty("Race Results")), d3.max(getProperty(selectedMetric))])
     .range([0, width - (CONFIG.margin.left * 2)]);
+
+  
+    yScalePosition = d3.scaleLinear()
+      .domain([d3.min(getProperty("Position")), d3.max(getProperty("Position"))])
+      .range([0, width - (CONFIG.margin.left * 2)]);
 
   yScale = d3.scaleLinear()
     .domain([0, getProperty(selectedMetric).length])

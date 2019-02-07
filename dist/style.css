@@ -46,8 +46,12 @@ header h1 {
 
 .label {
   font-size: 13px;
+  transition: all 0.5s ease;
 }
 
-.avatar {
 
+.label.x-axis {
+  font-size: 17px;
+  color: red;
 }
+

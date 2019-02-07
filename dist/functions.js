@@ -165,12 +165,19 @@ function fall() {
     // Circle attrs
     .attr("x", "0px")
     .attr("y", (d, i) => yScale(i) + "px")
+
     .delay((d, i) => {
       return duration + (i * 50);
     })
     .duration(duration)
     .ease(d3.easeSinInOut);
 
+  // setttimeout to run on the next event loop
+  setTimeout(() => {
+    mainSVG
+      .selectAll("text")
+      .classed("x-axis", true);
+  }, 2000);
 
   mainSVG
     .selectAll("#avatar-group circle")
