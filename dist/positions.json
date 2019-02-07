@@ -1,0 +1,74 @@
+[
+  {
+    "Pilot": "L. Di Grassi",
+    "Practice 1": 6.0333,
+    "Practice 2": 4.8929,
+    "Qualification Results": 6.7576,
+    "Race Results": 5.1212,
+    "image": "Grassi.jpeg"
+  },
+  {
+    "Pilot": "P. Gasly",
+    "Practice 1": 17.5,
+    "Practice 2": 15,
+    "Qualification Results": 10,
+    "Race Results": 5.5
+  },
+  {
+    "Pilot": "S. Buemi",
+    "Practice 1": 2.25,
+    "Practice 2": 5.3704,
+    "Qualification Results": 5.7742,
+    "Race Results": 6.4194
+  },
+  {
+    "Pilot": "N. Prost",
+    "Practice 1": 6.1333,
+    "Practice 2": 7.5,
+    "Qualification Results": 6.697,
+    "Race Results": 6.9333
+  },
+  {
+    "Pilot": "F. Rosenqvist",
+    "Practice 1": 6.8333,
+    "Practice 2": 5.2727,
+    "Qualification Results": 5.75,
+    "Race Results": 7.75
+  },
+  {
+    "Pilot": "O. Servia",
+    "Practice 1": 16,
+    "Practice 2": 14.3333,
+    "Qualification Results": 9.25,
+    "Race Results": 8,
+    "image": "Servia.jpeg"
+  },
+  {
+    "Pilot": "S. Bird",
+    "Practice 1": 6.7333,
+    "Practice 2": 9,
+    "Qualification Results": 7.4848,
+    "Race Results": 8.3333
+  },
+  {
+    "Pilot": "F. Montagny",
+    "Practice 1": 8,
+    "Practice 2": 4,
+    "Qualification Results": 9,
+    "Race Results": 8.5
+  },
+  {
+    "Pilot": "J. Vergne",
+    "Practice 1": 7.7143,
+    "Practice 2": 7.1538,
+    "Qualification Results": 5.8387,
+    "Race Results": 8.871
+  },
+  {
+    "Pilot": "J. D'Ambrosio",
+    "Practice 1": 9.7333,
+    "Practice 2": 11.75,
+    "Qualification Results": 10.7879,
+    "Race Results": 9.0909
+  }
+]

@@ -1,0 +1,53 @@
+:root {
+  --beige: #F0EDDD;
+  --dark-beige: #CAB99F;
+  --black: #0D1A1C;
+  --blue: #0C7DE5;
+  --light-blue: #7AB9D9;
+}
+
+/* Body */
+body {
+  background-color: var(--beige);
+  font-family: 'Oswald',
+    sans-serif;
+}
+
+*[hidden^=true] {
+  visibility: hidden;
+  display: none;
+  position: absolute;
+}
+
+*[hidden^=false] {
+  visibility: visible;
+  display: block;
+  position: relative;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Header */
+header {
+  text-align: center;
+}
+header h1 {
+  margin: 0.2em;
+  color: var(--black);
+  font-size: 2.2em;
+  font-weight: bold;
+}
+
+#main {
+  position: relative;
+}
+
+.label {
+  font-size: 13px;
+}
+
+.avatar {
+
+}
