@@ -7,7 +7,7 @@ const CONFIG = {
     left: 50
   },
   width: 900,
-  height: 600
+  height: 550
 };
 
 let height = CONFIG.height - CONFIG.margin.top - CONFIG.margin.bottom;
@@ -23,6 +23,12 @@ window.onload = () => {
   title = d3.select("#title");
   console.log("==> STARTED");
   parseData(draw);
+
+  document.onkeydown = (event) => {
+    if (event.keyCode == '40') {
+      next();
+    }
+  };
 };
 
 
@@ -33,6 +39,7 @@ function parseData(drawFn) {
     data = d;
     console.log("==> imported", data);
 
+    currentStep = "draw";
     configureScales();
     drawFn();
   });
@@ -73,3 +80,61 @@ function configureScales() {
 function getProperty(property) {
   return data.map((dataPoint) => dataPoint[property]).slice(0, 10);
 }
+
+let steps = ["draw", "bar", "scatter", "dumbell", "reset"];
+let fns = [draw, bar, scatter, dumbell, reset];
+let currentStep = null;
+
+function next() {
+  let currIndex = steps.indexOf(currentStep);
+  if (currIndex === steps.length - 1) {
+    console.log("DONE")
+  } else {
+    currIndex++;
+    currentStep = steps[currIndex];
+    console.log(currentStep);
+    fns[currIndex]();
+  }
+}
+
+function reset() {
+  mainSVG.remove();
+  currentStep = "draw";
+  draw();
+}
+
+
+function stopPulse() {
+  els = document.querySelectorAll(".pulse");
+  els[0].classList.toggle("pulse")
+  els[1].classList.toggle("pulse")
+}
+
+// function attachTooltips() {
+//   mainSVG
+//     .append("text")
+//     .classed("hide", true)
+//     .attr("id", "tooltip");
+
+//   mainSVG.selectAll(".avatar")
+//     .on("mouseenter", handleMouseOver)
+//     .on("mouseout", handleMouseOut);
+// }
+
+
+// function handleMouseOver(d, i) { // Add interactivity
+//   var x = this.getAttribute("cx");
+//   var y = this.getAttribute("cy");
+
+//   mainSVG.select("#tooltip")
+//     .attr("x", x )
+//     .attr("y", y )
+//     .text("test")
+//     .classed("hide", false)
+
+// }
+
+// function handleMouseOut(d, i) {
+//   mainSVG.select("#tooltip")
+//     .classed("hide", true)
+// }

@@ -46,7 +46,6 @@ function draw() {
 
 
   mainSVG = d3.select("#mainSVG");
-
   addDefs();
 
   // Circles Group
@@ -86,6 +85,8 @@ function draw() {
 }
 
 function bar() {
+
+  stopPulse();
   console.log("==> bar()");
 
   title.text("How many times did each ranked 1st ?");
@@ -181,9 +182,10 @@ function bar() {
 }
 
 
-function fall() {
+function scatter() {
+  console.log("==> scatter()");
   title.text("How well did they do in the Qualifications ? (Average Rank in Quali)");
-
+  // attachTooltips();
   var delay = 50;
   var duration = 800;
 
@@ -251,14 +253,38 @@ function fall() {
     })
     .duration(duration)
     .ease(d3.easeSinInOut);
+
+
+  mainSVG
+    .append("g")
+    .attr("id", "x-axis")
+    .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+
+    // Init labels
+    .selectAll("text")
+    .data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    .enter().append("text")
+    .classed("x-label", true)
+
+    // bar attrs
+    .attr("x", (d, i) => (CONFIG.margin.left * 2) + xScale(d))
+    .attr("y", (d, i) => height)
+    .text(d => d)
+    .style("opacity", 0)
+    .transition()
+    .style("opacity", 1)
+    .delay((d) => {
+      return duration * 3;
+    })
+    .duration(duration)
+    .ease(d3.easeSinInOut);
 }
 
-
-
 function dumbell() {
+  console.log("==> dumbell()");
   title.html("How well did they do in the Qualifications vs <span>Race Results</span>?");
 
-
+  d3.select(".instruction").text("↓ to restart infographic")
   // lines
   mainSVG
     .append("g")
@@ -338,6 +364,5 @@ function dumbell() {
       return i * 50;
     })
     .duration(1000)
-    .ease(d3.easeBackOut)
-
+    .ease(d3.easeBackOut);
 }

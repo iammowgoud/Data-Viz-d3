@@ -46,11 +46,41 @@ header h1 span {
 }
 
 .controls {
-  float: right;
+  position: absolute;
+  bottom: 10px;
+  width: 99%;
+  text-align: center;
+    cursor: pointer;
 }
 
-.controls button {
-  display: block;
+.controls img {
+  width: 35px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+     transform: scale(1.2)
+  }
+
+}
+
+.pulse {
+animation: pulse 1.5s infinite;
+}
+
+.pulse:hover {
+  animation: none;
+  transform: scale(1.2);
+}
+
+.controls span {
+ position: absolute;
+ right: 20px;;
+ font-family: Arial, Helvetica, sans-serif;
 }
 
 #main {
@@ -91,4 +121,16 @@ header h1 span {
     visibility: visible;
     opacity: 1;
   }
+}
+
+.x-label {
+  fill: rgb(184, 149, 149);
+}
+
+.hide {
+  display: none;
+}
+
+#tooltip {
+  position: absolute;
 }
