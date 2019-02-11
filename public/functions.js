@@ -27,32 +27,32 @@ function addDefs() {
     .attr("height", 64)
     .attr("width", 25);
 
-    mainSVG
-      .append("line")
-      .classed("hide", true)
-      .attr("id", "x-marker")
-      .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
-      .attr("x1", 90)
-      .attr("y1", 0)
-      .attr("x2", 0)
-      .attr("y2", 0)
-      .style("opacity", 0.6)
-      .attr("stroke", "#d1cba8")
-      .attr("stroke-width", 2);
-  
-   mainSVG
-     .append("line")
-     .classed("hide", true)
-     .attr("id", "y-marker")
-     .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
-     .attr("x1", 0)
-     .attr("y1", height-20)
-     .attr("x2", 0)
-     .attr("y2", height-20)
-      .style("opacity", 0.6)
-     .attr("stroke", "#d1cba8")
-     .attr("stroke-width", 2);
-  
+  mainSVG
+    .append("line")
+    .classed("hide", true)
+    .attr("id", "x-marker")
+    .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+    .attr("x1", 90)
+    .attr("y1", 0)
+    .attr("x2", 0)
+    .attr("y2", 0)
+    .style("opacity", 0.6)
+    .attr("stroke", "#d1cba8")
+    .attr("stroke-width", 2);
+
+  mainSVG
+    .append("line")
+    .classed("hide", true)
+    .attr("id", "y-marker")
+    .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+    .attr("x1", 0)
+    .attr("y1", height - 20)
+    .attr("x2", 0)
+    .attr("y2", height - 20)
+    .style("opacity", 0.6)
+    .attr("stroke", "#d1cba8")
+    .attr("stroke-width", 2);
+
   mainSVG
     .append("text")
     .classed("hide", true)
@@ -94,7 +94,7 @@ function draw() {
     .enter().append("circle")
     .classed("avatar", true)
     .attr("pilot", d => getID(d["Pilot"]))
-    
+
     // Circle attrs
     .attr("cx", (d, i) => xScale(i))
     .attr("cy", CONFIG.margin.top)
@@ -298,13 +298,13 @@ function scatter() {
 
     // Init labels
     .selectAll("text")
-    .data([ 5, 6, 7, 8, 9, 10, 11])
+    .data([5, 6, 7, 8, 9, 10, 11])
     .enter().append("text")
     .classed("x-label", true)
 
     // bar attrs
     .attr("x", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d))
-    .attr("y", (d, i) => height+25)
+    .attr("y", (d, i) => height + 25)
     .text(d => d)
     .style("opacity", 0)
     .transition()
@@ -385,7 +385,7 @@ function dumbell() {
     .classed("avatar", true)
     .classed("dumbell", true)
     .attr("pilot", d => getID(d["Pilot"]))
-    
+
     .attr("cy", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
     .attr("cx", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
     .attr("r", CONFIG.scatterRadius - 5)
@@ -402,6 +402,6 @@ function dumbell() {
     })
     .duration(1000)
     .ease(d3.easeBackOut);
-  
+
   attachTooltips();
 }
