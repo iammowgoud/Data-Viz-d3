@@ -5,7 +5,7 @@ function addDefs() {
     .data(data)
     .enter()
     .append("pattern")
-    .attr("id", (d) => d["Pilot"].replace(/^[^a-z]+|[^\w:.-]+/gi, ""))
+    .attr("id", (d) => getID(d["Pilot"]))
     .attr("height", "100%")
     .attr("width", "100%")
     .attr("patternContentUnits", "objectBoundingBox")
@@ -27,12 +27,46 @@ function addDefs() {
     .attr("height", 64)
     .attr("width", 25);
 
+    mainSVG
+      .append("line")
+      .classed("hide", true)
+      .attr("id", "x-marker")
+      .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+      .attr("x1", 90)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", 0)
+      .style("opacity", 0.6)
+      .attr("stroke", "#d1cba8")
+      .attr("stroke-width", 2);
+  
+   mainSVG
+     .append("line")
+     .classed("hide", true)
+     .attr("id", "y-marker")
+     .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+     .attr("x1", 0)
+     .attr("y1", height-20)
+     .attr("x2", 0)
+     .attr("y2", height-20)
+      .style("opacity", 0.6)
+     .attr("stroke", "#d1cba8")
+     .attr("stroke-width", 2);
+  
+  mainSVG
+    .append("text")
+    .classed("hide", true)
+    .attr("id", "text-marker")
+    .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("fill", "#b89595");
 }
 
 function draw() {
   console.log("==> draw()");
 
-  title.text("Top Formula E Pilots for the last 3 seasons (2014-2016)");
+  title.text("Top Formula E Pilots for the last 3 seasons");
 
   // Main Viz
   main.style("max-width", `${CONFIG.width}px`)
@@ -59,11 +93,12 @@ function draw() {
     .data(data)
     .enter().append("circle")
     .classed("avatar", true)
-
+    .attr("pilot", d => getID(d["Pilot"]))
+    
     // Circle attrs
     .attr("cx", (d, i) => xScale(i))
     .attr("cy", CONFIG.margin.top)
-    .attr("fill", d => "url(#" + d["Pilot"].replace(/^[^a-z]+|[^\w:.-]+/gi, "") + ")")
+    .attr("fill", d => "url(#" + getID(d["Pilot"]) + ")")
     .attr("r", 35);
   // .attr("stroke", "black");
 
@@ -75,6 +110,7 @@ function draw() {
     .data(data)
     .enter().append("text")
     .classed("label", true)
+    .attr("pilot", d => getID(d["Pilot"]))
     .text((d, i) => d["Pilot"])
     // .attr("transform", "translate(-25, 0)")
 
@@ -89,7 +125,7 @@ function bar() {
   stopPulse();
   console.log("==> bar()");
 
-  title.text("How many times did each ranked 1st ?");
+  title.html("How <u>many times</u> did each ranked 1st ?");
 
   var delay = 50;
   var duration = 800;
@@ -184,8 +220,8 @@ function bar() {
 
 function scatter() {
   console.log("==> scatter()");
-  title.text("How well did they do in the Qualifications ? (Average Rank in Quali)");
-  // attachTooltips();
+  title.html("What was the <u>Average Rank</u> in all Qualifications ?");
+  attachTooltips();
   var delay = 50;
   var duration = 800;
 
@@ -223,7 +259,7 @@ function scatter() {
   }, duration + 40);
 
   mainSVG
-    .selectAll("text")
+    .selectAll("text.label")
     .transition()
     // Circle attrs
     .attr("x", "0px")
@@ -262,13 +298,13 @@ function scatter() {
 
     // Init labels
     .selectAll("text")
-    .data([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    .data([ 5, 6, 7, 8, 9, 10, 11])
     .enter().append("text")
     .classed("x-label", true)
 
     // bar attrs
-    .attr("x", (d, i) => (CONFIG.margin.left * 2) + xScale(d))
-    .attr("y", (d, i) => height)
+    .attr("x", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d))
+    .attr("y", (d, i) => height+25)
     .text(d => d)
     .style("opacity", 0)
     .transition()
@@ -282,7 +318,7 @@ function scatter() {
 
 function dumbell() {
   console.log("==> dumbell()");
-  title.html("How well did they do in the Qualifications vs <span>Race Results</span>?");
+  title.html("What was the <u>Average Rank</u> in Qualifications vs <span>Race Results</span>?");
 
   d3.select(".instruction").text("↓ to restart infographic")
   // lines
@@ -348,7 +384,8 @@ function dumbell() {
     .enter().append("circle")
     .classed("avatar", true)
     .classed("dumbell", true)
-
+    .attr("pilot", d => getID(d["Pilot"]))
+    
     .attr("cy", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
     .attr("cx", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
     .attr("r", CONFIG.scatterRadius - 5)
@@ -365,4 +402,6 @@ function dumbell() {
     })
     .duration(1000)
     .ease(d3.easeBackOut);
+  
+  attachTooltips();
 }

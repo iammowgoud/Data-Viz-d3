@@ -35,7 +35,7 @@ header {
 }
 
 header h1 {
-  margin: 0.2em;
+  margin: 0.1em;
   color: var(--black);
   font-size: 2.2em;
   font-weight: bold;
@@ -133,13 +133,14 @@ header h1 span {
 
 .x-label {
   fill: rgb(184, 149, 149);
+  font-size: 15px;
 }
 
 .hide {
   display: none;
 }
 
-#tooltip {
+#x-marker,#y-marker,#text-mmarker {
   position: absolute;
 }
 
@@ -148,4 +149,9 @@ header h1 span {
   position: absolute;
   right: 60px;
   bottom: 60px;
+}
+
+.label.highlight {
+  fill:#8d6565;
+  text-decoration: underline;
 }

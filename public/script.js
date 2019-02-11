@@ -7,7 +7,7 @@ const CONFIG = {
     left: 50
   },
   width: 900,
-  height: 550
+  height: 530
 };
 
 let height = CONFIG.height - CONFIG.margin.top - CONFIG.margin.bottom;
@@ -46,8 +46,6 @@ function parseData(drawFn) {
 }
 
 function configureScales() {
-
-  console.log('dddd', [CONFIG.margin.left, width])
   xScale = d3.scaleLinear()
     .domain([0, getProperty(selectedMetric).length])
     .range([0, CONFIG.width]);
@@ -98,9 +96,7 @@ function next() {
 }
 
 function reset() {
-  mainSVG.remove();
-  currentStep = "draw";
-  draw();
+  location.reload();
 }
 
 
@@ -112,10 +108,6 @@ function stopPulse() {
 }
 
 function attachTooltips() {
-  mainSVG
-    .append("text")
-    .classed("hide", true)
-    .attr("id", "tooltip");
 
   mainSVG.selectAll(".avatar")
     .on("mouseenter", handleMouseOver)
@@ -126,16 +118,54 @@ function attachTooltips() {
 function handleMouseOver(d, i) { // Add interactivity
   var x = this.getAttribute("cx");
   var y = this.getAttribute("cy");
+  var pilot = this.getAttribute("pilot");
+  var dumbell = this.getAttribute("class").includes("dumbell");
 
-  mainSVG.select("#tooltip")
-    .attr("x", x )
-    .attr("y", y )
-    .text(d[selectedMetric])
-    .classed("hide", false)
+  if (dumbell) {
+    var text = "Race: " + Math.round(d["Race Results"] * 10) / 10;
+
+  } else {
+    var text = Math.round(d[dumbell ? "Race Results" : selectedMetric] * 10) / 10;
+    var text = "Qualifications: " + Math.round(d[selectedMetric] * 10) / 10;
+
+  }
+
+  // mainSVG.select("#x-marker")
+  //   .attr("x2", x)
+  //   .attr("y1", y)
+  //   .attr("y2", y)
+  //   .classed("hide", false);
+
+  mainSVG.select("#y-marker")
+    .attr("x1", x)
+    .attr("x2", x)
+    .attr("y2", y)
+    .classed("hide", false);
+
+  mainSVG.select("#text-marker")
+    .attr("x", x - (dumbell ? 20 : 70))
+    .attr("y", height)
+    .text(text)
+    .classed("hide", false);
+
+
+   mainSVG.select(".label[pilot^='" + pilot + "']")
+     .classed("highlight", true);
 
 }
 
 function handleMouseOut(d, i) {
-  mainSVG.select("#tooltip")
-    .classed("hide", true)
+  var pilot = this.getAttribute("pilot");
+  // mainSVG.select("#x-marker")
+  //   .classed("hide", true);
+  mainSVG.select("#y-marker")
+    .classed("hide", true);
+  mainSVG.select("#text-marker")
+    .classed("hide", true);
+    mainSVG.select(".label[pilot^='" + pilot + "']")
+      .classed("highlight", false);
+}
+
+function getID(string) {
+  return string.replace(/^[^a-z]+|[^\w:.-]+/gi, "");
 }
