@@ -125,7 +125,7 @@ function bar() {
   stopPulse();
   console.log("==> bar()");
 
-  title.html("How <u>many times</u> did each ranked 1st ?");
+  title.html("How <u>many times</u> did each rank 1st ?");
 
   var delay = 50;
   var duration = 800;
