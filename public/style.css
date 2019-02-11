@@ -50,7 +50,7 @@ header h1 span {
   bottom: 10px;
   width: 99%;
   text-align: center;
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .controls img {
@@ -63,13 +63,13 @@ header h1 span {
   }
 
   50% {
-     transform: scale(1.2)
+    transform: scale(1.2)
   }
 
 }
 
 .pulse {
-animation: pulse 1.5s infinite;
+  animation: pulse 1.5s infinite;
 }
 
 .pulse:hover {
@@ -78,9 +78,17 @@ animation: pulse 1.5s infinite;
 }
 
 .controls span {
- position: absolute;
- right: 20px;;
- font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  right: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.controls img {
+  opacity: 0.75;
+}
+
+.controls img:hover {
+  opacity: 1;
 }
 
 #main {
@@ -133,4 +141,11 @@ animation: pulse 1.5s infinite;
 
 #tooltip {
   position: absolute;
+}
+
+.arrow {
+  font-size: 120px;
+  position: absolute;
+  right: 60px;
+  bottom: 60px;
 }

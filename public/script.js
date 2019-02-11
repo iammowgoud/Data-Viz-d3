@@ -108,33 +108,34 @@ function stopPulse() {
   els = document.querySelectorAll(".pulse");
   els[0].classList.toggle("pulse")
   els[1].classList.toggle("pulse")
+  document.querySelector(".arrow").remove();
 }
 
-// function attachTooltips() {
-//   mainSVG
-//     .append("text")
-//     .classed("hide", true)
-//     .attr("id", "tooltip");
+function attachTooltips() {
+  mainSVG
+    .append("text")
+    .classed("hide", true)
+    .attr("id", "tooltip");
 
-//   mainSVG.selectAll(".avatar")
-//     .on("mouseenter", handleMouseOver)
-//     .on("mouseout", handleMouseOut);
-// }
+  mainSVG.selectAll(".avatar")
+    .on("mouseenter", handleMouseOver)
+    .on("mouseout", handleMouseOut);
+}
 
 
-// function handleMouseOver(d, i) { // Add interactivity
-//   var x = this.getAttribute("cx");
-//   var y = this.getAttribute("cy");
+function handleMouseOver(d, i) { // Add interactivity
+  var x = this.getAttribute("cx");
+  var y = this.getAttribute("cy");
 
-//   mainSVG.select("#tooltip")
-//     .attr("x", x )
-//     .attr("y", y )
-//     .text("test")
-//     .classed("hide", false)
+  mainSVG.select("#tooltip")
+    .attr("x", x )
+    .attr("y", y )
+    .text(d[selectedMetric])
+    .classed("hide", false)
 
-// }
+}
 
-// function handleMouseOut(d, i) {
-//   mainSVG.select("#tooltip")
-//     .classed("hide", true)
-// }
+function handleMouseOut(d, i) {
+  mainSVG.select("#tooltip")
+    .classed("hide", true)
+}
