@@ -165,13 +165,13 @@ function bar() {
     .attr("height", (d, i) => 0)
     .attr("width", "15px")
     .attr("fill", "#f92700")
-    .attr("opacity", "0.5")
+    .style("opacity", "0.5")
 
     .transition()
     .attr("x", (d, i) => xScale(i) - 3)
     .attr("y", (d, i) => height - 90 - yScalePosition(d["Position"]))
     .attr("height", (d, i) => yScalePosition(d["Position"]))
-    .attr("opacity", "0.9")
+    .style("opacity", "0.9")
     .attr("width", "6px")
     .delay((d, i) => {
       return duration + (i * delay) + 10;
@@ -190,7 +190,8 @@ function fall() {
   mainSVG
     .selectAll("rect.car")
     .transition()
-    .attr("y", -150)
+    .attr("y", -130)
+    .style("opacity", 0)
     .delay((d, i) => {
       return ((i - 1) * delay);
     })
@@ -200,8 +201,9 @@ function fall() {
   mainSVG
     .selectAll("rect.bar")
     .transition()
-    .attr("y", -150)
+    .attr("y", -130)
     .attr("height", 0)
+    .style("opacity", 0)
     .delay((d, i) => {
       return ((i - 1) * delay + 20);
     })
@@ -209,14 +211,14 @@ function fall() {
     .ease(d3.easeQuad);
 
 
-  setTimeout(() => {
-    mainSVG
-      .selectAll("#bar")
-      .remove();
-    mainSVG
-      .selectAll("#cars")
-      .remove();
-  }, duration + 10);
+  // setTimeout(() => {
+  //   mainSVG
+  //     .selectAll("#bar")
+  //     .remove();
+  //   mainSVG
+  //     .selectAll("#cars")
+  //     .remove();
+  // }, duration + 40);
 
   mainSVG
     .selectAll("text")
