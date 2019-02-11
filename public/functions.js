@@ -86,7 +86,7 @@ function draw() {
 }
 
 function bar() {
-  console.log("==> draw()");
+  console.log("==> bar()");
 
   title.text("How many times did each ranked 1st ?");
 
@@ -135,11 +135,11 @@ function bar() {
     .attr("width", "25px")
     .attr("height", "64px")
     .attr("fill", "url(#car)")
-    .style("display", "none")
+    .style("opacity", "0")
 
     .transition()
     .attr("y", (d, i) => height - 150 - yScalePosition(d["Position"]))
-    .style("display", "block")
+    .style("opacity", "1")
     .delay((d, i) => {
       return duration + (i * delay) - 10;
     })
@@ -160,17 +160,21 @@ function bar() {
     .classed("bar", true)
 
     // bar attrs
-    .attr("x", (d, i) => xScale(i) - 3)
+    .attr("x", (d, i) => xScale(i) - 7)
     .attr("y", (d, i) => height - 100)
     .attr("height", (d, i) => 0)
-    .attr("width", "6px")
+    .attr("width", "15px")
     .attr("fill", "#f92700")
+    .attr("opacity", "0.5")
 
     .transition()
+    .attr("x", (d, i) => xScale(i) - 3)
     .attr("y", (d, i) => height - 90 - yScalePosition(d["Position"]))
     .attr("height", (d, i) => yScalePosition(d["Position"]))
+    .attr("opacity", "0.9")
+    .attr("width", "6px")
     .delay((d, i) => {
-      return duration + (i * delay);
+      return duration + (i * delay) + 10;
     })
     .duration(duration)
     .ease(d3.easeQuad);
