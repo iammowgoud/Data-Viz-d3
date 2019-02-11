@@ -211,14 +211,14 @@ function fall() {
     .ease(d3.easeQuad);
 
 
-  // setTimeout(() => {
-  //   mainSVG
-  //     .selectAll("#bar")
-  //     .remove();
-  //   mainSVG
-  //     .selectAll("#cars")
-  //     .remove();
-  // }, duration + 40);
+  setTimeout(() => {
+    mainSVG
+      .selectAll("#bar")
+      .remove();
+    mainSVG
+      .selectAll("#cars")
+      .remove();
+  }, duration + 40);
 
   mainSVG
     .selectAll("text")
@@ -228,7 +228,7 @@ function fall() {
     .attr("y", (d, i) => yScale(i) + "px")
 
     .delay((d, i) => {
-      return duration + (i * 50);
+      return (duration * 1.5) + (i * 50);
     })
     .duration(duration)
     .ease(d3.easeSinInOut);
@@ -247,7 +247,7 @@ function fall() {
     .attr("cx", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
     .attr("r", CONFIG.scatterRadius)
     .delay((d, i) => {
-      return (duration * 2) + (i * 50);
+      return ((duration / 2) * 3) + (i * 50);
     })
     .duration(duration)
     .ease(d3.easeSinInOut);
@@ -271,18 +271,6 @@ function dumbell() {
     .enter().insert("line", "#avatar-group")
     .classed("line", true)
 
-    .attr("x1", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
-    .attr("y1", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
-    .attr("x2", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
-    .attr("y2", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
-
-    .attr("stroke", "black")
-    .attr("stroke-width", 3)
-
-
-
-    .transition()
-
     .attr("x1", (d, i) => {
       var offset = CONFIG.scatterRadius;
       if (d["Qualification Results"] > d["Race Results"]) {
@@ -290,7 +278,23 @@ function dumbell() {
       }
       return (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]) + offset;
     })
+    .attr("y1", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
+    .attr("x2", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
+    .attr("y2", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
 
+    .attr("stroke", "#b89595")
+    .attr("stroke-width", 3)
+
+
+
+    .transition()
+    .attr("x1", (d, i) => {
+      var offset = CONFIG.scatterRadius;
+      if (d["Qualification Results"] > d["Race Results"]) {
+        offset = -offset;
+      }
+      return (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]) + offset;
+    })
     .attr("x2", (d, i) => {
       var offset = CONFIG.scatterRadius;
       if (d["Qualification Results"] < d["Race Results"]) {
