@@ -49,10 +49,10 @@ function configureScales() {
     .domain([d3.min(getProperty("Race Results")), d3.max(getProperty(selectedMetric))])
     .range([0, width - (CONFIG.margin.left * 2)]);
 
-  
-    yScalePosition = d3.scaleLinear()
-      .domain([d3.min(getProperty("Position")), d3.max(getProperty("Position"))])
-      .range([0, width - (CONFIG.margin.left * 2)]);
+
+  yScalePosition = d3.scaleLinear()
+    .domain([d3.min(getProperty("Position")), d3.max(getProperty("Position"))])
+    .range([30, height - (CONFIG.margin.top * 3)]);
 
   yScale = d3.scaleLinear()
     .domain([0, getProperty(selectedMetric).length])

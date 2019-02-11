@@ -16,12 +16,23 @@ function addDefs() {
     .attr("xlink:href", function (d) {
       return "imgs/" + (d["image"] || "pp.png")
     });
+
+  defs.append("svg:pattern")
+    .attr("id", "car")
+    .attr("height", "100%")
+    .attr("width", "100%")
+    .attr("patternUnits", "objectBoundingBox")
+    .append("svg:image")
+    .attr("xlink:href", 'imgs/car.png')
+    .attr("height", 64)
+    .attr("width", 25);
+
 }
 
 function draw() {
   console.log("==> draw()");
 
-  title.text("Formula E Pilots");
+  title.text("Top Formula E Pilots for the last 3 seasons (2014-2016)");
 
   // Main Viz
   main.style("max-width", `${CONFIG.width}px`)
@@ -77,14 +88,14 @@ function draw() {
 function bar() {
   console.log("==> draw()");
 
-  title.text("Ranked 1st");
+  title.text("How many times did each ranked 1st ?");
 
   var delay = 50;
   var duration = 800;
 
 
   mainSVG
-    .selectAll("circle")
+    .selectAll("circle.avatar")
     .transition()
     .attr("cy", (d, i) => height - CONFIG.margin.bottom)
     .delay((d, i) => {
@@ -104,6 +115,37 @@ function bar() {
     .ease(d3.easeQuad);
 
 
+  //Cars
+
+  mainSVG
+    .append("g")
+    .attr("id", "cars")
+    .attr("transform", "translate(" + CONFIG.margin.left + "," + CONFIG.margin.top + ")")
+
+    // Init Circles
+    .selectAll("rect")
+    .data(data)
+    .enter().append("rect")
+    .classed("car", true)
+
+    // rect attrs
+    .attr("x", (d, i) => xScale(i) - 12)
+    .attr("y", (d, i) => height - 100)
+    .attr("height", (d, i) => 0)
+    .attr("width", "25px")
+    .attr("height", "64px")
+    .attr("fill", "url(#car)")
+    .style("display", "none")
+
+    .transition()
+    .attr("y", (d, i) => height - 150 - yScalePosition(d["Position"]))
+    .style("display", "block")
+    .delay((d, i) => {
+      return duration + (i * delay) - 10;
+    })
+    .duration(duration)
+    .ease(d3.easeQuad);
+
   //Bars
 
   mainSVG
@@ -117,16 +159,16 @@ function bar() {
     .enter().append("rect")
     .classed("bar", true)
 
-    // Circle attrs
-    .attr("x", (d, i) => xScale(i) - 10)
+    // bar attrs
+    .attr("x", (d, i) => xScale(i) - 3)
     .attr("y", (d, i) => height - 100)
     .attr("height", (d, i) => 0)
-    .attr("width", "20px")
-    .attr("fill", "red")
+    .attr("width", "6px")
+    .attr("fill", "#f92700")
 
     .transition()
-    .attr("y", (d, i) => yScale(i - 1))
-    .attr("height", (d, i) => Math.abs(height - yScale(i - 1) - 100))
+    .attr("y", (d, i) => height - 90 - yScalePosition(d["Position"]))
+    .attr("height", (d, i) => yScalePosition(d["Position"]))
     .delay((d, i) => {
       return duration + (i * delay);
     })
@@ -136,18 +178,28 @@ function bar() {
 
 
 function fall() {
-  title.text("Qualification Results");
+  title.text("How well did they do in the Qualifications ? (Average Rank in Quali)");
 
   var delay = 50;
   var duration = 800;
 
   mainSVG
-    .selectAll("rect")
+    .selectAll("rect.car")
     .transition()
-    .attr("y", 0)
-    .attr("height", 0)
+    .attr("y", -150)
     .delay((d, i) => {
       return ((i - 1) * delay);
+    })
+    .duration(duration)
+    .ease(d3.easeQuad);
+
+  mainSVG
+    .selectAll("rect.bar")
+    .transition()
+    .attr("y", -150)
+    .attr("height", 0)
+    .delay((d, i) => {
+      return ((i - 1) * delay + 20);
     })
     .duration(duration)
     .ease(d3.easeQuad);
@@ -156,6 +208,9 @@ function fall() {
   setTimeout(() => {
     mainSVG
       .selectAll("#bar")
+      .remove();
+    mainSVG
+      .selectAll("#cars")
       .remove();
   }, duration + 10);
 
@@ -195,7 +250,7 @@ function fall() {
 
 
 function dumbell() {
-  title.text("Qualification Results Vs. Race Results");
+  title.html("How well did they do in the Qualifications vs <span>Race Results</span>?");
 
 
   // lines
@@ -222,8 +277,21 @@ function dumbell() {
 
     .transition()
 
+    .attr("x1", (d, i) => {
+      var offset = CONFIG.scatterRadius;
+      if (d["Qualification Results"] > d["Race Results"]) {
+        offset = -offset;
+      }
+      return (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]) + offset;
+    })
 
-    .attr("x2", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d["Race Results"]))
+    .attr("x2", (d, i) => {
+      var offset = CONFIG.scatterRadius;
+      if (d["Qualification Results"] < d["Race Results"]) {
+        offset = -offset;
+      }
+      return (CONFIG.margin.left * 2) + xScalePosition(d["Race Results"]) + offset;
+    })
 
     .delay((d, i) => {
       return i * 50;
@@ -243,10 +311,11 @@ function dumbell() {
     .data(data)
     .enter().append("circle")
     .classed("avatar", true)
+    .classed("dumbell", true)
 
     .attr("cy", (d, i) => yScale(i) - (CONFIG.scatterRadius / 2))
     .attr("cx", (d, i) => (CONFIG.margin.left * 2) + xScalePosition(d[selectedMetric]))
-    .attr("r", CONFIG.scatterRadius)
+    .attr("r", CONFIG.scatterRadius - 5)
     .attr("fill", "transparent")
 
 
